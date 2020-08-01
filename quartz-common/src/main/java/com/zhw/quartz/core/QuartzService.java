@@ -281,9 +281,9 @@ public class QuartzService implements ApplicationContextAware {
             map.put("cronEx", jobTriggerInfo.getCronEx());
             map.put("state", jobTriggerInfo.getState());
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            map.put("previousFireTime", formatter.format(jobTriggerInfo.getPreviousFireTime()));
-            map.put("nextFireTime", formatter.format(jobTriggerInfo.getNextFireTime()));
-            map.put("startTime", formatter.format(jobTriggerInfo.getStartTime()));
+            map.put("previousFireTime", getDateStr(jobTriggerInfo.getPreviousFireTime()));
+            map.put("nextFireTime", getDateStr(jobTriggerInfo.getNextFireTime()));
+            map.put("startTime", getDateStr(jobTriggerInfo.getStartTime()));
             return map;
         }).collect(Collectors.toList());
     }
