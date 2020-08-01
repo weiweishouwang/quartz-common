@@ -292,4 +292,13 @@ public class QuartzService implements ApplicationContextAware {
         BaseJob job = (BaseJob) applicationContext.getBean(name);
         job.execute();
     }
+
+    private String getDateStr(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (date != null) {
+            return formatter.format(date);
+        } else {
+            return "";
+        }
+    }
 }

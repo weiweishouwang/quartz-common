@@ -3,6 +3,7 @@ buildscript {
 		springBootVersion = '2.3.2.RELEASE'
 		springBootManagementVersion = '1.0.9.RELEASE'
 		mybatisPlusBootStarterVersion = '3.3.2'
+		hikariCPVersion = '3.4.5'
 	}
 
 	repositories {
@@ -47,6 +48,7 @@ allprojects {
 				{
 					exclude group: 'com.zaxxer', module: 'HikariCP-java7'
 				}
+		implementation "com.zaxxer:HikariCP:${hikariCPVersion}"
 	}
 }
 
