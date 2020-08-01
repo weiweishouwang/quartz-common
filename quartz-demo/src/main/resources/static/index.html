@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>任务管理</title>
+    <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="easyui/themes/color.css">
+<!--    <link rel="stylesheet" type="text/css" href="easyui/demo/demo.css">-->
+    <script type="text/javascript" src="easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<h2>任务管理</h2>
+<p>新增、更新、删除任务</p>
+
+<table id="dg" title="任务" class="easyui-datagrid" style="width:1024px;height:400px"
+       url="getJobAndTriggers2"
+       toolbar="#toolbar" pagination="true"
+       rownumbers="true" fitColumns="true" singleSelect="true">
+    <thead>
+    <tr>
+        <th field="jobName" width="150">任务名</th>
+        <th field="description" width="150">描述</th>
+        <th field="cronEx" width="150">执行时机</th>
+        <th field="state" width="100">状态</th>
+        <th field="previousFireTime" width="160">前一次执行时间</th>
+        <th field="nextFireTime" width="160">下一次执行时间</th>
+        <th field="startTime" width="160">任务启动时间</th>
+    </tr>
+    </thead>
+</table>
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">新增</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="exec()">立即执行</a>
+</div>
+
+<div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <h3>任务信息</h3>
+        <h4>任务名要和类名一致(首字母小写)</h4>
+        <div style="margin-bottom:10px">
+            <input name="jobName" class="easyui-textbox" required="true" label="任务名:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="description" class="easyui-textbox" required="true" label="描述:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="cronEx" class="easyui-textbox" required="true" label="执行时机:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="state" class="easyui-textbox" readonly="true" label="状态:" style="width:100%">
+        </div>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+</div>
+<script type="text/javascript">
+    var url;
+    function newUser(){
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle','任务');
+        $('#fm').form('clear');
+        url = 'addJobAndTrigger';
+    }
+    function editUser(){
+        var row = $('#dg').datagrid('getSelected');
+        if (row){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit User');
+            $('#fm').form('load',row);
+            url = 'addJobAndTrigger';
+        }
+    }
+    function saveUser(){
+        $('#fm').form('submit',{
+            url: url,
+            iframe: false,
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                $('#dlg').dialog('close');        // close the dialog
+                $('#dg').datagrid('reload');    // reload the user data
+            }
+        });
+    }
+    function destroyUser(){
+        var row = $('#dg').datagrid('getSelected');
+        if (row){
+            $.messager.confirm('Confirm','要删除任务吗?',function(r){
+                if (r){
+                    $.post('deleteJobAndTrigger',{jobName:row.jobName},function(result){
+                        $('#dg').datagrid('reload');    // reload the user data
+                    },'json');
+                }
+            });
+        }
+    }
+
+    function exec(){
+        var row = $('#dg').datagrid('getSelected');
+        if (row){
+            $.messager.confirm('Confirm','要立即执行任务吗?',function(r){
+                if (r){
+                    $.post('execJob',{jobName:row.jobName},function(result){
+                        $('#dg').datagrid('reload');    // reload the user data
+                    },'json');
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

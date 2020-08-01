@@ -11,12 +11,16 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.beans.PropertyDescriptor;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by zhw on 2015/11/11 0011.
@@ -266,6 +270,22 @@ public class QuartzService implements ApplicationContextAware {
         }
 
         return jobTriggerInfos;
+    }
+
+    public List<Map<String, Object>> getJobAndTriggers2(String triggerGroup) throws SchedulerException {
+        List<JobTriggerInfo> ret = getJobAndTriggers(triggerGroup);
+        return ret.stream().map(jobTriggerInfo -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("jobName", jobTriggerInfo.getJobName());
+            map.put("description", jobTriggerInfo.getDescription());
+            map.put("cronEx", jobTriggerInfo.getCronEx());
+            map.put("state", jobTriggerInfo.getState());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            map.put("previousFireTime", formatter.format(jobTriggerInfo.getPreviousFireTime()));
+            map.put("nextFireTime", formatter.format(jobTriggerInfo.getNextFireTime()));
+            map.put("startTime", formatter.format(jobTriggerInfo.getStartTime()));
+            return map;
+        }).collect(Collectors.toList());
     }
 
     public void execJob(String name) {
