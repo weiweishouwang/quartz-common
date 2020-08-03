@@ -22,10 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Component("quartzDataSourceProperties")
+//@Component("quartzDataSourceProperties")
 @ConfigurationProperties(prefix = "quartz.datasource")
-@ConditionalOnProperty(name = "quartz.datasource.type", havingValue = "com.zaxxer.hikari.HikariDataSource",
-        matchIfMissing = false)
 public class QuartzDataSourceProperties implements BeanClassLoaderAware, InitializingBean {
 
     private ClassLoader classLoader;

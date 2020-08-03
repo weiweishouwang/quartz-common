@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.quartz.QuartzDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,12 +24,12 @@ import javax.sql.DataSource;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(HikariDataSource.class)
 @ConditionalOnMissingBean(DataSource.class)
-@ConditionalOnProperty(name = "quartz.datasource.type", havingValue = "com.zaxxer.hikari.HikariDataSource",
-        matchIfMissing = false)
+@ConditionalOnProperty(name = "quartz.datasource.type", havingValue = "com.zaxxer.hikari.HikariDataSource")
+@EnableConfigurationProperties(QuartzDataSourceProperties.class)
 public class QuartzConfig {
     @Bean
     @QuartzDataSource
-    @ConfigurationProperties(prefix = "quartz.datasource.hikari")
+    //@ConfigurationProperties(prefix = "quartz.datasource.hikari")
     HikariDataSource quartzDataSource(QuartzDataSourceProperties properties) {
         HikariDataSource dataSource = properties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
         if (StringUtils.hasText(properties.getName())) {
