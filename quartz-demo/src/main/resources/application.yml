@@ -20,9 +20,9 @@ quartz:
     name: quartzDS
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://47.96.5.19:3306/quartz?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://192.168.182.152:30000/quartz?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: root
+    password: TK51PEZrK2
     cachePrepStmts: true
     prepStmtCacheSize: 300
     prepStmtCacheSqlLimit: 2048
@@ -47,7 +47,7 @@ spring:
     name: quartzDemoDS
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://47.96.5.19:3306/quartz_demo?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://192.168.182.152:3306/quartz_demo?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: root
     cachePrepStmts: true

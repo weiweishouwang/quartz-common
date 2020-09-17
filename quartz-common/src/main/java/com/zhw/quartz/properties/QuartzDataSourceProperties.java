@@ -3,14 +3,12 @@ package com.zhw.quartz.properties;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.jdbc.DataSourceInitializationMode;
 import org.springframework.boot.jdbc.DatabaseDriver;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
@@ -22,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-//@Component("quartzDataSourceProperties")
 @ConfigurationProperties(prefix = "quartz.datasource")
 public class QuartzDataSourceProperties implements BeanClassLoaderAware, InitializingBean {
 
